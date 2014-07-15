@@ -35,7 +35,7 @@ RecognitionAPI.prototype.start = function(continuous, iterim, lang){
   this.recognition = new webkitSpeechRecognition();
   this.recognition.continuous = continuous;
   this.recognition.interimResults = iterim;
-  this.lang = lang;
+  this.lang = lang || 'en-US';
 
   this.recognition.start();
 
@@ -172,7 +172,7 @@ RecognitionAPI.prototype.translate = function(options, successCallback, errorCal
 
     to = options.to || 'en-US';
     from = options.from || 'en-US';
-    text = options.text || "";
+    text = options.text;
 
     //callback function that will return the result from the Google API
     
