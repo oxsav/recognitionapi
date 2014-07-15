@@ -113,18 +113,17 @@ RecognitionAPI.prototype.voiceToText = function(callback){
   
 }
 
-RecognitionAPI.prototype.textToVoice = function(text, lang, rate, callback, errorCallback){
+RecognitionAPI.prototype.textToVoice = function(options, callback, errorCallback){
   
-  if(!text || text==""){
+  if(!options.text || options.text==""){
     errorCallback("No text to read");
     return;
   }
-    
 
   var synthesis = new SpeechSynthesisUtterance();
-  synthesis.lang = lang || 'en-US';
-  synthesis.rate = rate || 1.2;
-  synthesis.text = text;
+  synthesis.lang = options.lang || 'en-US';
+  synthesis.rate = options.rate || 1.2;
+  synthesis.text = options.text;
 
   speechSynthesis.speak(synthesis);
   synthesis.onend = function(evt){ callback(evt); }

@@ -80,12 +80,13 @@ This library allow users to test the [SpeechRecognition API] (https://dvcs.w3.or
 * `textToVoice`. This method spells a text of your choice
 
 ```javascript
-
-  var text = "Hello World!"
-  var lang = "en-US"; //default is en-US (language)
-  var rate = 1.2; //default is 1.2 (velocity that you want to the text be spelled)
+  var options = {
+    text: "Hello World",
+    lang: "en-Us", //default is en-US (language)
+    rate 1.2 //default is 1.2 (velocity that you want to the text be spelled)
+  };
   
-  recogn.textToVoice(text, lang, rate, successCallback, errorCallback);
+  recogn.textToVoice(options, successCallback, errorCallback);
   
   successCallback = function(evt){};
   errorCallback = function(error){};
