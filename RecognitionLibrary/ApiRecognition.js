@@ -142,16 +142,6 @@ RecognitionAPI.prototype.translate = function(options, successCallback, errorCal
   var from;
   var text;
 
-  callback = function(reply){
-      if(reply.error){
-        errorCallback(reply.error.message)
-      }
-      else{
-        successCallback(reply);  
-      }
-      
-  };
-
   if(!options){
     errorCallback("No Api Defined");
     return;
@@ -180,7 +170,8 @@ RecognitionAPI.prototype.translate = function(options, successCallback, errorCal
         errorCallback(reply.error.message)
       }
       else{
-        successCallback(reply);  
+        if(response.data)
+        successCallback(response.data.translations[0].translatedText);  
       }
       
     };
@@ -213,8 +204,57 @@ RecognitionAPI.prototype.translate = function(options, successCallback, errorCal
       errorCallback("Missing the URL!")
       return;
     }
-
+    callback = function(reply){
+      if(reply.error){
+        errorCallback(reply.error.message)
+      }
+      else{
+        successCallback(reply.text_converted);  
+      }
+    };
+    
     loadURL(options.urlApi);
   }
   
+}
+
+
+RecognitionAPI.prototype.translateTextToVoice = function(apiOptions, voiceOptions, errorCallback){
+
+  var that = this;
+  that.translate(apiOptions, function(text){
+    that.textToVoice(voiceOptions);
+  },function(error){
+    errorCallback(error);
+  });
+
+}
+
+RecognitionAPI.prototype.translateVoiceToText = function(apiOptions, successCallback, errorCallback){
+
+  var that = this;
+  that.translate(apiOptions, function(text){
+    that.voiceToText(function(text){
+      successCallback(text);
+    });
+  },function(error){
+    errorCallback(error);
+  });
+
+}
+
+RecognitionAPI.prototype.translateVoiceToVoice = function(translateOptions, voiceOptions, successCallback, errorCallback){
+  var that = this;
+  that.voiceToText(function(text){
+    that.translate(translateOptions, function(text){
+      that.textToVoice(voiceOptions, function(){
+        successCallback();
+      },
+      function(error){
+        errorCallback(error);
+      });
+    },function(error){
+      errorCallback(error);
+    });
+  });
 }
