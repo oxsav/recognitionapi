@@ -5,13 +5,13 @@ Recognition Library
 
 ````shell
 
-	$: git clone https://github.com/oxsav/WebRTCMediaDevelopments.git
+	$: git clone https://github.com/oxsav/recognitionapi.git
 	$: cd recognitionapi/
 	$: npm install
 	$: gulp
 ```
 
-Then just access to ![http://localhost:8000](http://localhost:8000)
+Then just access to [http://localhost:8000](http://localhost:8000)
 
 ###Description
 
