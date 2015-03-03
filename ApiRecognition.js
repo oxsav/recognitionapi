@@ -1,10 +1,10 @@
 /**
  * RecognitionAPI
  *
- * @param recognition  
- * @param continuous 
- * @param interimResults 
- * @param lang 
+ * @param recognition
+ * @param continuous
+ * @param interimResults
+ * @param lang
  *
  */
 function RecognitionAPI(){
@@ -15,7 +15,7 @@ function RecognitionAPI(){
   this.lang;
 
 
-  /** loadURL 
+  /** loadURL
    *  this method will do a HTTP GET to a external URL (a callback must be defined in the URL)
    * @param url String
    */
@@ -24,13 +24,13 @@ function RecognitionAPI(){
     fileref.setAttribute("type", "text/javascript");
     fileref.setAttribute("src", url);
     if (typeof fileref != "undefined")
-      document.getElementsByTagName("head")[0].appendChild(fileref);  
+      document.getElementsByTagName("head")[0].appendChild(fileref);
   };
 
 }
 
 
-RecognitionAPI.prototype.start = function(continuous, iterim, lang){  
+RecognitionAPI.prototype.start = function(continuous, iterim, lang){
 
   this.recognition = new webkitSpeechRecognition();
   this.recognition.continuous = continuous;
@@ -44,7 +44,7 @@ RecognitionAPI.prototype.start = function(continuous, iterim, lang){
 
 RecognitionAPI.prototype.stop = function(evt, callback){
 
-  this.recognition.stop(); 
+  this.recognition.stop();
 
 }
 
@@ -54,7 +54,7 @@ RecognitionAPI.prototype.onresult = function(callback){
   this.recognition.onresult = function(event){
     callback(event);
   };
-  
+
 }
 
 RecognitionAPI.prototype.onstart = function(callback){
@@ -79,7 +79,7 @@ RecognitionAPI.prototype.onend = function(callback){
 RecognitionAPI.prototype.onerror = function(callback){
 
   this.recognition.onerror = function(error){
-    callback(error); 
+    callback(error);
   };
 
 }
@@ -95,7 +95,7 @@ RecognitionAPI.prototype.onsoundend = function(callback){
   this.recognition.onsoundend = function(event){
     callback(event);
   };
-  
+
 }
 
 
@@ -110,12 +110,12 @@ RecognitionAPI.prototype.voiceToText = function(callback){
       callback(text);
     }
   });
-  
+
 }
 
 RecognitionAPI.prototype.textToVoice = function(options, callback, errorCallback){
-  
-  if(!options.text || options.text==""){
+
+  if(!options.text || options.text.trim() ==""){
     errorCallback("No text to read");
     return;
   }
@@ -130,12 +130,12 @@ RecognitionAPI.prototype.textToVoice = function(options, callback, errorCallback
 }
 
 /** translate function
- * 
+ *
  */
 
 RecognitionAPI.prototype.translate = function(options, successCallback, errorCallback){
-  
-  /* for translate need to define wich API will be defined. 
+
+  /* for translate need to define wich API will be defined.
   Define if we want to use HTTP to have the translation done, or if want to use some API like google or bing.
   Need to understand first the exitence APIs.*/
   var to;
@@ -164,39 +164,39 @@ RecognitionAPI.prototype.translate = function(options, successCallback, errorCal
     text = options.text;
 
     //callback function that will return the result from the Google API
-    
+
     callback = function(reply){
       if(reply.error){
         errorCallback(reply.error.message)
       }
       else{
         if(response.data)
-        successCallback(response.data.translations[0].translatedText);  
+        successCallback(response.data.translations[0].translatedText);
       }
-      
+
     };
 
 
     var url = 'https://www.googleapis.com/language/translate/v2?key=' + options.apikey + '&target=' + options.to + '&callback=callback&q='+ text;
     loadURL(url);
-    
+
 
   }else if(options.apitype === 'bingapi'){
 
     successCallback("In development...");
-    
+
     //appId = options.apikey
 
     if(!options.apikey){
       errorCallback("Missing API KEY");
       return
     }
-    
+
     to = options.to || 'en-US';
     from = options.from || 'pt-PT';
     text = options.text;
 
-    //http://api.microsofttranslator.com/v2/Http.svc/Translate?appId=123123&text=hello&from=en-US&to=pt-PT&callback=return 
+    //http://api.microsofttranslator.com/v2/Http.svc/Translate?appId=123123&text=hello&from=en-US&to=pt-PT&callback=return
 
   }
   else {
@@ -209,13 +209,13 @@ RecognitionAPI.prototype.translate = function(options, successCallback, errorCal
         errorCallback(reply.error.message)
       }
       else{
-        successCallback(reply.text_converted);  
+        successCallback(reply.text_converted);
       }
     };
-    
+
     loadURL(options.urlApi);
   }
-  
+
 }
 
 
@@ -223,6 +223,7 @@ RecognitionAPI.prototype.translateTextToVoice = function(apiOptions, voiceOption
 
   var that = this;
   that.translate(apiOptions, function(text){
+    voiceOptions.text = text;
     that.textToVoice(voiceOptions);
   },function(error){
     errorCallback(error);
