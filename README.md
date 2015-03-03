@@ -1,6 +1,17 @@
 Recognition Library
 ==============================
 
+###Run in your machine
+
+````shell
+
+	$: git clone https://github.com/oxsav/WebRTCMediaDevelopments.git
+	$: cd recognitionapi/
+	$: npm install
+	$: gulp
+```
+
+Then just access to ![http://localhost:8000](http://localhost:8000)
 
 ###Description
 
