@@ -24,7 +24,7 @@ This library allow users to test the [SpeechRecognition API] (https://dvcs.w3.or
 	var lang = 'en-US'; //by default is en-US
 	
 	//executing start you are albe to speak to the computer
-	recogn.start(continuous, iteramResults, lang);
+	recogn.start(continuous, iteram, lang);
   
 	
 ```
@@ -83,7 +83,7 @@ This library allow users to test the [SpeechRecognition API] (https://dvcs.w3.or
   var options = {
     text: "Hello World",
     lang: "en-Us", //default is en-US (language)
-    rate 1.2 //default is 1.2 (velocity that you want to the text be spelled)
+    rate: 1.2 //default is 1.2 (velocity that you want to the text be spelled)
   };
   
   recogn.textToVoice(options, successCallback, errorCallback);
