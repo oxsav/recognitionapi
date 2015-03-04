@@ -222,18 +222,18 @@ RecognitionAPI.prototype.translate = function(options, successCallback, errorCal
 RecognitionAPI.prototype.translateTextToVoice = function(apiOptions, voiceOptions, errorCallback){
 
   var that = this;
-  that.translate(apiOptions, function(text){
-    voiceOptions.text = text;
-    that.textToVoice(voiceOptions);
-  },function(error){
-    errorCallback(error);
-  });
+  successCallback = function(reply){
+    voiceOptions.text = reply.result;
+    that.textToVoice(voiceOptions, function(){}, function(){});
+  };
 
+  this.translate(apiOptions, successCallback);
 }
 
-RecognitionAPI.prototype.translateVoiceToText = function(apiOptions, successCallback, errorCallback){
+/*RecognitionAPI.prototype.translateVoiceToText = function(apiOptions, successCallback, errorCallback){
 
   var that = this;
+
   that.translate(apiOptions, function(text){
     that.voiceToText(function(text){
       successCallback(text);
@@ -258,4 +258,4 @@ RecognitionAPI.prototype.translateVoiceToVoice = function(translateOptions, voic
       errorCallback(error);
     });
   });
-}
+}*/

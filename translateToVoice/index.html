@@ -1,0 +1,88 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>RecognExample</title>
+    <script src="../ApiRecognition.js">RecognExample</script>
+    <style>
+      html, body{
+        height: 100%;
+      }
+      .main{
+        width: 600px;
+        margin: auto auto;
+        border: 1px solid;
+        height: 100%;
+      }
+      #init{
+        height: 50px;
+        width: 100%;
+        font-size: 20px;
+        font-weight: 700;
+      }
+      #inputtext{
+        height: 50px;
+        width: 99%;
+        font-size: 20px;
+        font-weight: 700;
+      }
+      .text{
+        margin-top: 200px;
+        font-size: 42px;
+        text-align: center;
+      }
+      #textspeaked{
+        margin-top: 10px;
+        font-size: 42px;
+        color: red;
+        text-align: center;
+        font-weight: 700;
+      }
+      #startrecording{
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="main">
+      <div>
+        <input type="text" id="inputtext" placeholder="insert text to voice"><button type="button" id="init">SPEAK FOR ME</button>
+      </div>
+      <div id="startrecording">
+        <div class="text">
+          You Said:
+        </div>
+        <div id="textspeaked">
+
+        </div>
+      </div>
+    </div>
+  </body>
+  <script>
+    document.getElementById("init").onclick = init;
+    var recogn = new RecognitionAPI();
+
+    function init(){
+      var input = document.getElementById("inputtext").value;
+      successCallback = function(text){return text;};
+      errorCallback = function(error){alert("Error:" + error);};
+
+      var voiceOptions = {
+        text: "",
+        lang: "pt-PT", //default is en-US (language)
+        rate: 1.2 //default is 1.2 (velocity that you want to the text be spelled)
+      };
+
+      var options = {
+        //make sure that you are using a callback in your RESTAPI
+        urlApi  : 'http://localhost/translateAPI/apitranslate.php?input='+input+'&from=en&to=pt&callback=successCallback' //mandatory
+      };
+
+      recogn.translateTextToVoice(options, voiceOptions, errorCallback);
+
+
+    }
+
+
+
+  </script>
+</html>
